@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import config
 
-genai.configure(api_key="AIzaSyCIUxdMLhMQJo00z1jLueTNUnlZW7HrCuA")
+genai.configure(api_key=config.GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 SYSTEM_PROMPT = f'''You are {config.NAME}, an advanced personal AI operating system assistant with full permission to interact with my computer through approved automation tools.
@@ -88,8 +88,5 @@ Permission handling & sandboxing
 The prompt defines behavior and intelligence, not permissions.'''
 
 def think(cmd):
-    response = client.models.generate_content(
-        model='gemini-1.5-flash',
-        contents=SYSTEM_PROMPT + "\n\nUser: " + cmd
-    )
+    response = model.generate_content(SYSTEM_PROMPT + "\n\nUser: " + cmd)
     return response.text
